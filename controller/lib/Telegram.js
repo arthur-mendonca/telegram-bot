@@ -71,7 +71,7 @@ const handleMessages = async (messageObj) => {
             sats,
           } = response.data.bitcoin;
 
-          const priceMessage = `💰 Preço Atual do Bitcoin:\n\n
+          const priceMessage = `💰 Preço Atual do Bitcoin:\n
           🇧🇷 BRL: ${formatCurrency(brl, "pt-BR", "BRL")}
           🇺🇸 USD: ${formatCurrency(usd, "en-US", "USD")}
           🇪🇺 EUR: ${formatCurrency(eur, "de-DE", "EUR")}
