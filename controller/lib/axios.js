@@ -3,9 +3,10 @@ require("dotenv").config();
 
 const token = process.env.MY_TOKEN;
 
-const baseURL = `https://api.telegram.org/bot${token}`;
+const telegramBaseURL = `https://api.telegram.org/bot${token}`;
+const coinGeckoBaseURL = "https://api.coingecko.com/api/v3";
 
-const getAxiosInstance = () => {
+const getAxiosInstance = (baseURL) => {
   return {
     get(method, params) {
       return axios.get(`/${method}`, { baseURL, params });
@@ -22,4 +23,7 @@ const getAxiosInstance = () => {
   };
 };
 
-module.exports = { axiosInstance: getAxiosInstance() };
+module.exports = {
+  telegramAxiosInstance: getAxiosInstance(telegramBaseURL),
+  coinGeckoAxiosInstance: getAxiosInstance(coinGeckoBaseURL),
+};
