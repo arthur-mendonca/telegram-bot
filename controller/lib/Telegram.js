@@ -1,13 +1,34 @@
 const { axiosInstance } = require("./axios");
 
 const sendMessage = (messageObj, messageText) => {
-  return axiosInstance.get("sendMessage", {
-    chat_id: messageObj.chat.id,
-    text: messageText,
-  });
+  try {
+    if (!messageObj.chat || !messageObj.chat.id) {
+      console.error("Invalid message object:", messageObj);
+      return Promise.reject(new Error("Invalid message object"));
+    }
+    return axiosInstance.get("sendMessage", {
+      chat_id: messageObj.chat.id,
+      text: messageText,
+    });
+  } catch (error) {
+    console.error(
+      "Erro ao enviar mensagem:",
+      error.response?.data || error.message
+    );
+
+    if (error.response?.status === 403) {
+      console.log("Usuário bloqueou o bot, ignorando...");
+      return;
+    }
+  }
 };
 
 const handleMessages = (messageObj) => {
+  if (!messageObj || typeof messageObj !== "object" || !messageObj.chat) {
+    console.error("Invalid message object:", messageObj);
+    return Promise.reject(new Error("Invalid message object"));
+  }
+
   const messageText = messageObj.text || "";
 
   if (messageText.charAt(0) === "/") {

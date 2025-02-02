@@ -9,7 +9,12 @@ app.get("*", async (req, res) => {
 });
 
 app.post("*", async (req, res) => {
-  res.send(await handler(req));
+  try {
+    await handler(req, res);
+  } catch (error) {
+    console.error("Erro no webhook:", error);
+    res.status(500).send("Internal Server Error");
+  }
 });
 
 app.listen(PORT, (err) => {
