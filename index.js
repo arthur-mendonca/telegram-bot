@@ -17,6 +17,19 @@ app.post("*", async (req, res) => {
   }
 });
 
+app.get("btc-price", async (req, res) => {
+  try {
+    const response = await axios.get(
+      "https://api.coingecko.com/api/v3/simple/price/?ids=bitcoin&vs_currencies=brl,usd,sats"
+    );
+
+    return res.json(response.data);
+  } catch (error) {
+    console.error("Erro ao consultar o preço do Bitcoin:", error);
+    return res.status(500).send("Internal Server Error");
+  }
+});
+
 app.listen(PORT, (err) => {
   if (err) {
     console.error(err);
